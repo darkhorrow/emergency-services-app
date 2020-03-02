@@ -43,6 +43,26 @@
                 </div>
             </div>
         </div>
+        <!-- Modal Service -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
@@ -51,130 +71,79 @@
         <script>
             $("#snt-b").click(function() {
                 addMarker("Sanitary service", "green");
-                var http = new XMLHttpRequest();
-                var url = 'addService';
-                var params = 'name=Sanitary&locx=-15.42&locy=28.12';
-                http.open('POST', url, true);
-
-                //Send the proper header information along with the request
-                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-                http.onreadystatechange = function() {//Call a function when the state changes.
-
-                }
-                http.send(params);
+                var name = "Sanitary";
+                var locX = -15.45;
+                var locY = 28.12;
+                var params = "name=" + name + "&locx=" + locX + "&locy=" + locY;
+                addRequest("addService", params);
             });
 
             $("#frm-b").click(function() {
                 addMarker("Firemen service", "red");
-                var http = new XMLHttpRequest();
-                var url = 'addService';
-                var params = 'name=Firemen&locx=-15.42&locy=28.12';
-                http.open('POST', url, true);
-
-                //Send the proper header information along with the request
-                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-                http.onreadystatechange = function() {//Call a function when the state changes.
-
-                }
-                http.send(params);
+                var name = "Firemen";
+                var locX = -15.45;
+                var locY = 28.12;
+                var params = "name=" + name + "&locx=" + locX + "&locy=" + locY;
+                addRequest("addService", params);
             });
 
             $("#plc-b").click(function() {
                 addMarker("Policemen service", "blue");
-                var http = new XMLHttpRequest();
-                var url = 'addService';
-                var params = 'name=Policemen&locx=-15.42&locy=28.12';
-                http.open('POST', url, true);
-
-                //Send the proper header information along with the request
-                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-                http.onreadystatechange = function() {//Call a function when the state changes.
-
-                }
-                http.send(params);
+                var name = "Policemen";
+                var locX = -15.45;
+                var locY = 28.12;
+                var params = "name=" + name + "&locx=" + locX + "&locy=" + locY;
+                addRequest("addService", params);
             });
 
             $("#ntd-b").click(function() {
                 addMarker("Natural disaster", "orange");
-                var http = new XMLHttpRequest();
-                var url = 'addEmergency';
-                var params = 'type=natural_disaster&locx=-15.42&locy=28.12&npeople=100';
-                http.open('POST', url, true);
-
-                //Send the proper header information along with the request
-                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-                http.onreadystatechange = function() {//Call a function when the state changes.
-
-                }
-                http.send(params);
+                var type = "natural_disaster";
+                var locX = -15.45;
+                var locY = 28.12;
+                var nPeople = 100;
+                var params = "type=" + type + "&locx=" + locX + "&locy=" + locY + "&npeople=" + nPeople;
+                addRequest("addEmergency", params);
             });
 
             $("#tft-b").click(function() {
                 addMarker("Theft", "orange");
-                var http = new XMLHttpRequest();
-                var url = 'addEmergency';
-                var params = 'type=thief&locx=-15.42&locy=28.12&npeople=1';
-                http.open('POST', url, true);
-
-                //Send the proper header information along with the request
-                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-                http.onreadystatechange = function() {//Call a function when the state changes.
-
-                }
-                http.send(params);
+                var type = "thief";
+                var locX = -15.45;
+                var locY = 28.12;
+                var nPeople = 1;
+                var params = "type=" + type + "&locx=" + locX + "&locy=" + locY + "&npeople=" + nPeople;
+                addRequest("addEmergency", params);
             });
 
             $("#hmc-b").click(function() {
                 addMarker("Homicide", "orange");
-                var http = new XMLHttpRequest();
-                var url = 'addEmergency';
-                var params = 'type=homicide&locx=-15.42&locy=28.12&npeople=10';
-                http.open('POST', url, true);
-
-                //Send the proper header information along with the request
-                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-                http.onreadystatechange = function() {//Call a function when the state changes.
-
-                }
-                http.send(params);
+                var type = "homicide";
+                var locX = -15.45;
+                var locY = 28.12;
+                var nPeople = 20;
+                var params = "type=" + type + "&locx=" + locX + "&locy=" + locY + "&npeople=" + nPeople;
+                addRequest("addEmergency", params);
             });
 
             $("#pnd-b").click(function() {
                 addMarker("Pandemic", "orange");
-                var http = new XMLHttpRequest();
-                var url = 'addEmergency';
-                var params = 'type=pandemic&locx=-15.42&locy=28.12&npeople=2000';
-                http.open('POST', url, true);
-
-                //Send the proper header information along with the request
-                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-                http.onreadystatechange = function() {//Call a function when the state changes.
-
-                }
-                http.send(params);
+                var type = "pandemic";
+                var locX = -15.45;
+                var locY = 28.12;
+                var nPeople = 200;
+                var params = "type=" + type + "&locx=" + locX + "&locy=" + locY + "&npeople=" + nPeople;
+                addRequest("addEmergency", params);
             });
 
             $("#tfc-b").click(function() {
                 addMarker("Traffic accident", "orange");
-                var http = new XMLHttpRequest();
-                var url = 'addEmergency';
-                var params = 'type=car_crash&locx=-15.42&locy=28.12&npeople=100';
-                http.open('POST', url, true);
-
-                //Send the proper header information along with the request
-                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-                http.onreadystatechange = function() {//Call a function when the state changes.
-
-                }
-                http.send(params);
+                var type = "car_crash";
+                var locX = -15.45;
+                var locY = 28.12;
+                var nPeople = 100;
+                var params = "type=" + type + "&locx=" + locX + "&locy=" + locY + "&npeople=" + nPeople;
+                addRequest("addEmergency", params);
             });
 
             function addMarker(title, color) {
@@ -187,6 +156,20 @@
                         url: "http://maps.google.com/mapfiles/ms/icons/" + color + "-dot.png"
                     }
                 });
+            }
+
+            function addRequest(url, params) {
+                var http = new XMLHttpRequest();
+                var url = url;
+                var params = params;
+                http.open('POST', url, true);
+                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                http.onreadystatechange = function() {
+                    if(http.readyState === XMLHttpRequest.DONE && http.status === 200) {
+                        console.log(http.responseText);
+                    }
+                }
+                http.send(params);
             }
         </script>
     </body>

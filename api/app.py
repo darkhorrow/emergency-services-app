@@ -55,7 +55,6 @@ def add_emergency():
     loc_x = request.form.get("locx")
     loc_y = request.form.get("locy")
     n_people = request.form.get("npeople")
-    print(n_people)
     service = EMERGENCY_TEMPLATE.new_fact()
     service["id"] = emergency_count
     service["type"] = Symbol(e_type)
