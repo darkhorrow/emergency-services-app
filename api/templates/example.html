@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+        <style>
+            .map { width: 100% !important; height: 100vh !important; }
+
+        </style>
+    </head>
+    <body class="bg-dark">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-10">
+                    {{mymap.html}}
+                </div>
+                <div class="col-2 py-2 bg-dark text-center">
+                    <h2 class="text-light">Actions</h2>
+                    <hr>
+                    <div class="dropdown">
+                        <a class="btn btn-secondary dropdown-toggle w-100" href="#" role="button" id="services-dp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-plus-circle"></i> Services
+                        </a>
+                        <div class="dropdown-menu bg-dark" aria-labelledby="services-dp">
+                            <a id="snt-b" class="dropdown-item text-success" href="#"><i class="fas fa-hospital"></i> Add sanitary service</a>
+                            <a id="frm-b" class="dropdown-item text-danger" href="#"><i class="fas fa-dumpster-fire"></i> Add firemen service</a>
+                            <a id="plc-b" class="dropdown-item text-primary" href="#"><i class="fas fa-shield-alt"></i> Add policemen service</a>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="dropdown">
+                        <a class="btn btn-secondary dropdown-toggle w-100" href="#" role="button" id="emergencies-dp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-plus-circle"></i> Emergencies
+                        </a>
+                        <div class="dropdown-menu bg-dark" aria-labelledby="emergencies-dp">
+                            <a id="ntd-b" class="dropdown-item text-warning" href="#"><i class="fas fa-house-damage"></i> Add natural disaster</a>
+                            <a id="tft-b" class="dropdown-item text-warning" href="#"><i class="fas fa-mask"></i> Add theft</a>
+                            <a id="hmc-b" class="dropdown-item text-warning" href="#"><i class="fas fa-skull-crossbones"></i> Add homicide</a>
+                            <a id="pnd-b" class="dropdown-item text-warning" href="#"><i class="fas fa-biohazard"></i> Add pandemic</a>
+                            <a id="tfc-b" class="dropdown-item text-warning" href="#"><i class="fas fa-car-crash"></i> Add traffic accident</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        {{mymap.js}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js" integrity="sha256-MAgcygDRahs+F/Nk5Vz387whB4kSK9NXlDN3w58LLq0=" crossorigin="anonymous"></script>
+        <script>
+            $("#snt-b").click(function() {
+                addMarker("Sanitary service", "green");
+                var http = new XMLHttpRequest();
+                var url = 'addService';
+                var params = 'name=Sanitary&locx=-15.42&locy=28.12';
+                http.open('POST', url, true);
+
+                //Send the proper header information along with the request
+                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+                http.onreadystatechange = function() {//Call a function when the state changes.
+
+                }
+                http.send(params);
+            });
+
+            $("#frm-b").click(function() {
+                addMarker("Firemen service", "red");
+                var http = new XMLHttpRequest();
+                var url = 'addService';
+                var params = 'name=Firemen&locx=-15.42&locy=28.12';
+                http.open('POST', url, true);
+
+                //Send the proper header information along with the request
+                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+                http.onreadystatechange = function() {//Call a function when the state changes.
+
+                }
+                http.send(params);
+            });
+
+            $("#plc-b").click(function() {
+                addMarker("Policemen service", "blue");
+                var http = new XMLHttpRequest();
+                var url = 'addService';
+                var params = 'name=Policemen&locx=-15.42&locy=28.12';
+                http.open('POST', url, true);
+
+                //Send the proper header information along with the request
+                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+                http.onreadystatechange = function() {//Call a function when the state changes.
+
+                }
+                http.send(params);
+            });
+
+            $("#ntd-b").click(function() {
+                addMarker("Natural disaster", "orange");
+                var http = new XMLHttpRequest();
+                var url = 'addEmergency';
+                var params = 'type=natural_disaster&locx=-15.42&locy=28.12&npeople=100';
+                http.open('POST', url, true);
+
+                //Send the proper header information along with the request
+                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+                http.onreadystatechange = function() {//Call a function when the state changes.
+
+                }
+                http.send(params);
+            });
+
+            $("#tft-b").click(function() {
+                addMarker("Theft", "orange");
+                var http = new XMLHttpRequest();
+                var url = 'addEmergency';
+                var params = 'type=thief&locx=-15.42&locy=28.12&npeople=1';
+                http.open('POST', url, true);
+
+                //Send the proper header information along with the request
+                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+                http.onreadystatechange = function() {//Call a function when the state changes.
+
+                }
+                http.send(params);
+            });
+
+            $("#hmc-b").click(function() {
+                addMarker("Homicide", "orange");
+                var http = new XMLHttpRequest();
+                var url = 'addEmergency';
+                var params = 'type=homicide&locx=-15.42&locy=28.12&npeople=10';
+                http.open('POST', url, true);
+
+                //Send the proper header information along with the request
+                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+                http.onreadystatechange = function() {//Call a function when the state changes.
+
+                }
+                http.send(params);
+            });
+
+            $("#pnd-b").click(function() {
+                addMarker("Pandemic", "orange");
+                var http = new XMLHttpRequest();
+                var url = 'addEmergency';
+                var params = 'type=pandemic&locx=-15.42&locy=28.12&npeople=2000';
+                http.open('POST', url, true);
+
+                //Send the proper header information along with the request
+                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+                http.onreadystatechange = function() {//Call a function when the state changes.
+
+                }
+                http.send(params);
+            });
+
+            $("#tfc-b").click(function() {
+                addMarker("Traffic accident", "orange");
+                var http = new XMLHttpRequest();
+                var url = 'addEmergency';
+                var params = 'type=car_crash&locx=-15.42&locy=28.12&npeople=100';
+                http.open('POST', url, true);
+
+                //Send the proper header information along with the request
+                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+                http.onreadystatechange = function() {//Call a function when the state changes.
+
+                }
+                http.send(params);
+            });
+
+            function addMarker(title, color) {
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(-15.42843, 28.12504),
+                    title: title,
+                    draggable: true,
+                    map: map,
+                    icon: {
+                        url: "http://maps.google.com/mapfiles/ms/icons/" + color + "-dot.png"
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>
