@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+        <style>
+            .map { width: 100% !important; height: 100vh !important; }
+
+        </style>
+    </head>
+    <body class="bg-dark">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-10">
+                    {{mymap.html}}
+                </div>
+                <div class="col-2 py-2 bg-dark text-center">
+                    <h2 class="text-light">Actions</h2>
+                    <hr>
+                    <div class="dropdown">
+                        <a class="btn btn-secondary dropdown-toggle w-100" href="#" role="button" id="services-dp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-plus-circle"></i> Services
+                        </a>
+                        <div class="dropdown-menu bg-dark" aria-labelledby="services-dp">
+                            <a id="snt-b" class="dropdown-item text-success" href="#" data-toggle="modal" data-target="#service-modal"><i class="fas fa-hospital"></i> Add sanitary service</a>
+                            <a id="frm-b" class="dropdown-item text-danger" href="#" data-toggle="modal" data-target="#service-modal"><i class="fas fa-dumpster-fire"></i> Add firemen service</a>
+                            <a id="plc-b" class="dropdown-item text-primary" href="#" data-toggle="modal" data-target="#service-modal"><i class="fas fa-shield-alt"></i> Add policemen service</a>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="dropdown">
+                        <a class="btn btn-secondary dropdown-toggle w-100" href="#" role="button" id="emergencies-dp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-plus-circle"></i> Emergencies
+                        </a>
+                        <div class="dropdown-menu bg-dark" aria-labelledby="emergencies-dp">
+                            <a id="ntd-b" class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#emergency-modal"><i class="fas fa-house-damage"></i> Add natural disaster</a>
+                            <a id="tft-b" class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#emergency-modal"><i class="fas fa-mask"></i> Add theft</a>
+                            <a id="hmc-b" class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#emergency-modal"><i class="fas fa-skull-crossbones"></i> Add homicide</a>
+                            <a id="pnd-b" class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#emergency-modal"><i class="fas fa-biohazard"></i> Add pandemic</a>
+                            <a id="tfc-b" class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#emergency-modal"><i class="fas fa-car-crash"></i> Add traffic accident</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Service -->
+        <div class="modal fade" id="service-modal" tabindex="-1" role="dialog" aria-labelledby="Define service" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Define service</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="service-form">
+                            <div class="form-group">
+                                <label for="members">Nº of members</label>
+                                <input type="text" class="form-control" id="members" name="members" placeholder="Nº of members">
+                            </div>
+                            <div class="form-group">
+                                <label for="speed">Movement speed</label>
+                                <input type="text" class="form-control" id="speed" name="speed" placeholder="Movement speed">
+                            </div>
+                            <div class="form-group">
+                                <label for="preptime">Preparation time</label>
+                                <input type="text" class="form-control" id="preptime" name="preptime" placeholder="Preparation time">
+                            </div>
+                            <input type="hidden" id="service-name" name="servicename" value="">
+                            <input type="hidden" id="locx-s" name="locx" value="-15.45">
+                            <input type="hidden" id="locy-s" name="locy" value="28.12">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="form-control btn btn-success">Add service</button>
+                        <button type="button" class="form-control btn btn-danger" data-dismiss="modal">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Emergency -->
+        <div class="modal fade" id="emergency-modal" tabindex="-1" role="dialog" aria-labelledby="Define emergency" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Define emergency</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="emergency-form">
+                            <div class="form-group">
+                                <label for="affected">Nº of affected people</label>
+                                <input type="text" class="form-control" id="affected" name="affected" placeholder="Nº of affected people">
+                            </div>
+                            <input type="hidden" id="emergency-type" name="emergencytype" value="">
+                            <input type="hidden" id="locx-e" name="locx" value="-15.45">
+                            <input type="hidden" id="locy-e" name="locy" value="28.12">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="form-control btn btn-success">Add emergency</button>
+                        <button type="button" class="form-control btn btn-danger" data-dismiss="modal">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        {{mymap.js}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js" integrity="sha256-MAgcygDRahs+F/Nk5Vz387whB4kSK9NXlDN3w58LLq0=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/emergencies-functions.js') }}"></script>
+    </body>
+</html>
