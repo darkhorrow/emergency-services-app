@@ -38,9 +38,10 @@ $(document).ready(function() {
         $.ajax({
                type: "POST",
                url: url,
+               dataType: 'json',
                data: form.serialize(),
                success: function(data) {
-                    switch(data) {
+                    switch(data.service_name) {
                       case "Sanitary":
                         addMarker("Sanitary", "green");
                         break;
@@ -54,7 +55,7 @@ $(document).ready(function() {
                     }
                     $("#service-modal").modal("hide")
                }
-        });
+        }).responseJSON;
     });
 
     $("#emergency-form").submit(function(e) {
@@ -65,8 +66,9 @@ $(document).ready(function() {
                type: "POST",
                url: url,
                data: form.serialize(),
+               dataType: 'json',
                success: function(data) {
-                    switch(data) {
+                    switch(data.emergency_type) {
                       case "natural_disaster":
                         addMarker("Natural disaster", "orange");
                         break;
@@ -86,11 +88,12 @@ $(document).ready(function() {
                     }
                     $("#emergency-modal").modal("hide")
                }
-        });
+        }).responseJSON;
     });
 
     function addMarker(title, color) {
         var marker = new google.maps.Marker({
+            animation: google.maps.Animation.DROP,
             position: new google.maps.LatLng(-15.42843, 28.12504),
             title: title,
             draggable: true,
@@ -98,6 +101,11 @@ $(document).ready(function() {
             icon: {
                 url: "http://maps.google.com/mapfiles/ms/icons/" + color + "-dot.png"
             }
+        });
+
+        google.maps.event.addListener(marker, 'dragend', function() {
+
+
         });
     }
 

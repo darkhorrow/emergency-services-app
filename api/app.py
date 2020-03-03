@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, Response
+from flask import Flask, render_template, request, Response, jsonify
 from flask_restful import Api
 from flask_googlemaps import GoogleMaps, Map
 from clips import Symbol, Environment
@@ -42,7 +42,7 @@ def add_service():
 
     env.run()
 
-    return Response(request.form.get("servicename"))
+    return jsonify(id=service["id"], service_name=service["name"])
 
 
 @app.route("/addEmergency", methods=['POST'])
@@ -60,7 +60,12 @@ def add_emergency():
 
     env.run()
 
-    return Response(request.form.get("emergencytype"))
+    return jsonify(id=service["id"], emergency_type=service["type"])
+
+
+@app.route("/moveService", methods=['POST'])
+def move_service():
+    pass
 
 
 if __name__ == '__main__':
