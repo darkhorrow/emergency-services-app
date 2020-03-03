@@ -43,13 +43,13 @@ $(document).ready(function() {
                success: function(data) {
                     switch(data.service_name) {
                       case "Sanitary":
-                        addMarker("Sanitary", "green");
+                        addMarker(data.id, "Sanitary", "green");
                         break;
                       case "Firemen":
-                        addMarker("Firemen", "red");
+                        addMarker(data.id, "Firemen", "red");
                         break;
                       case "Policemen":
-                        addMarker("Firemen", "blue");
+                        addMarker(data.id, "Policemen", "blue");
                       default:
                         break;
                     }
@@ -70,18 +70,18 @@ $(document).ready(function() {
                success: function(data) {
                     switch(data.emergency_type) {
                       case "natural_disaster":
-                        addMarker("Natural disaster", "orange");
+                        addMarker(data.id, "Natural disaster", "orange");
                         break;
                       case "thief":
-                        addMarker("Theft", "orange");
+                        addMarker(data.id, "Theft", "orange");
                         break;
                       case "homicide":
-                        addMarker("Homicide", "orange");
+                        addMarker(data.id, "Homicide", "orange");
                       case "pandemic":
-                        addMarker("Pandemic", "orange");
+                        addMarker(data.id, "Pandemic", "orange");
                         break;
                       case "car_crash":
-                        addMarker("Traffic accident", "orange");
+                        addMarker(data.id, "Traffic accident", "orange");
                         break;
                       default:
                         break;
@@ -91,8 +91,15 @@ $(document).ready(function() {
         }).responseJSON;
     });
 
-    function addMarker(title, color) {
+    function addMarker(id, title, color) {
+
+        var infoText = "<ul class='list-group'>" +
+                            "<li class='list-group-item'><b>ID</b>: " + id +"</li>" +
+                            "<li class='list-group-item'><b>Title</b>: " + title +"</li>" +
+                        "</ul>";
+
         var marker = new google.maps.Marker({
+            id: id,
             animation: google.maps.Animation.DROP,
             position: new google.maps.LatLng(-15.42843, 28.12504),
             title: title,
@@ -100,8 +107,14 @@ $(document).ready(function() {
             map: map,
             icon: {
                 url: "http://maps.google.com/mapfiles/ms/icons/" + color + "-dot.png"
-            }
+            },
+            info: new google.maps.InfoWindow({ content: infoText })
         });
+
+        marker.addListener('click', function() {
+            marker.info.open(map, marker);
+        });
+
 
         google.maps.event.addListener(marker, 'dragend', function() {
 
