@@ -48,12 +48,11 @@ def add_service():
 @app.route("/addEmergency", methods=['POST'])
 def add_emergency():
     global emergency_count
-    n_people = request.form.get("npeople")
     service = EMERGENCY_TEMPLATE.new_fact()
     service["id"] = emergency_count
-    service["type"] = Symbol(request.form.get("type"))
+    service["type"] = Symbol(request.form.get("emergencytype"))
     service["location"] = [float(request.form.get("locx")), float(request.form.get("locy"))]
-    service["n_affected_people"] = int(n_people)
+    service["n_affected_people"] = int(request.form.get("affected"))
     service.assertit()
 
     if service.asserted:
@@ -61,7 +60,7 @@ def add_emergency():
 
     env.run()
 
-    return Response(request.form.get("type"))
+    return Response(request.form.get("emergencytype"))
 
 
 if __name__ == '__main__':

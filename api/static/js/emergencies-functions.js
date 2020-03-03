@@ -12,53 +12,23 @@ $(document).ready(function() {
     });
 
     $("#ntd-b").click(function() {
-        addMarker("Natural disaster", "orange");
-        var type = "natural_disaster";
-        var locX = -15.45;
-        var locY = 28.12;
-        var nPeople = 100;
-        var params = "type=" + type + "&locx=" + locX + "&locy=" + locY + "&npeople=" + nPeople;
-        addRequest("addEmergency", params);
+        $("#emergency-type").attr("value","natural_disaster");
     });
 
     $("#tft-b").click(function() {
-        addMarker("Theft", "orange");
-        var type = "thief";
-        var locX = -15.45;
-        var locY = 28.12;
-        var nPeople = 1;
-        var params = "type=" + type + "&locx=" + locX + "&locy=" + locY + "&npeople=" + nPeople;
-        addRequest("addEmergency", params);
+        $("#emergency-type").attr("value","thief");
     });
 
     $("#hmc-b").click(function() {
-        addMarker("Homicide", "orange");
-        var type = "homicide";
-        var locX = -15.45;
-        var locY = 28.12;
-        var nPeople = 20;
-        var params = "type=" + type + "&locx=" + locX + "&locy=" + locY + "&npeople=" + nPeople;
-        addRequest("addEmergency", params);
+        $("#emergency-type").attr("value","homicide");
     });
 
     $("#pnd-b").click(function() {
-        addMarker("Pandemic", "orange");
-        var type = "pandemic";
-        var locX = -15.45;
-        var locY = 28.12;
-        var nPeople = 200;
-        var params = "type=" + type + "&locx=" + locX + "&locy=" + locY + "&npeople=" + nPeople;
-        addRequest("addEmergency", params);
+        $("#emergency-type").attr("value","pandemic");
     });
 
     $("#tfc-b").click(function() {
-        addMarker("Traffic accident", "orange");
-        var type = "car_crash";
-        var locX = -15.45;
-        var locY = 28.12;
-        var nPeople = 100;
-        var params = "type=" + type + "&locx=" + locX + "&locy=" + locY + "&npeople=" + nPeople;
-        addRequest("addEmergency", params);
+        $("#emergency-type").attr("value","car_crash");
     });
 
     $("#service-form").submit(function(e) {
@@ -105,6 +75,12 @@ $(document).ready(function() {
                         break;
                       case "homicide":
                         addMarker("Homicide", "orange");
+                      case "pandemic":
+                        addMarker("Pandemic", "orange");
+                        break;
+                      case "car_crash":
+                        addMarker("Traffic accident", "orange");
+                        break;
                       default:
                         break;
                     }
