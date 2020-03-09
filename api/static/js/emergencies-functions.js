@@ -119,20 +119,23 @@ $(document).ready(function() {
 
 
         google.maps.event.addListener(marker, 'dragend', function() {
-            moveMarker(marker);
+            moveMarker(marker, "moveService");
         });
     }
 
-    function moveMarker(marker) {
-        switch(marker.type) {
-            case "service":
+    function moveMarker(marker, url) {
+        var id = marker.id;
+        var locX = marker.position.lat();
+        var locY = marker.position.lng();
+        $.ajax({
+               type: "POST",
+               url: url,
+               dataType: 'json',
+               data: 'id=' + encodeURIComponent(id) + '&locx=' + encodeURIComponent(locX) + '&locy=' + encodeURIComponent(locY),
+               success: function(data) {
 
-                break;
-            case "emergency":
-                break;
-            default:
-                break;
-        }
+               }
+        }).responseJSON;
     }
 
 });

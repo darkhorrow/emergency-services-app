@@ -65,30 +65,29 @@ def add_emergency():
 
 @app.route("/moveService", methods=['POST'])
 def move_service():
-    id = request.form.get("id")
-    name = request.form.get("name")
+    fact_id = request.form.get("id")
     loc_x = request.form.get("locx")
     loc_y = request.form.get("locy")
-    members = request.form.get("members")
-    speed = request.form.get("speed")
-    prep_time = request.form.get("preptime")
 
     for fact in env.facts():
-        if fact['name'] is not None and fact['id'] == int(id):
-            fact.retract()
-
-            service = EMERGENCY_TEMPLATE.new_fact()
-            service["id"] = id
-            service["type"] = Symbol(name)
+        if fact.template.name == 'Service' and fact['id'] == int(fact_id):
+            service = SERVICE_TEMPLATE.new_fact()
+            service["id"] = int(fact_id)
+            service["name"] = fact['name']
             service["location"] = [float(loc_x), float(loc_y)]
-            service["n_members"] = int(members)
-            service["movement_speed"] = float(speed)
-            service["prep_time"] = float(prep_time)
+            service["n_members"] = int(fact['n_members'])
+            service["movement_speed"] = float(fact['movement_speed'])
+            service["prep_time"] = float(fact['prep_time'])
+
             service.assertit()
+
+            fact.retract()
 
             env.run()
 
-            break;
+            return jsonify(id=service["id"], service_name=service["name"])
+
+    return jsonify(id=None, service_name=None)
 
 
 if __name__ == '__main__':
