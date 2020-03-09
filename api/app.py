@@ -90,5 +90,30 @@ def move_service():
     return jsonify(id=None, service_name=None)
 
 
+@app.route("/moveEmergency", methods=['POST'])
+def move_emergency():
+    fact_id = request.form.get("id")
+    loc_x = request.form.get("locx")
+    loc_y = request.form.get("locy")
+
+    for fact in env.facts():
+        if fact.template.name == 'Emergency' and fact['id'] == int(fact_id):
+            service = EMERGENCY_TEMPLATE.new_fact()
+            service["id"] = int(fact_id)
+            service["type"] = fact['type']
+            service["location"] = [float(loc_x), float(loc_y)]
+            service["n_affected_people"] = int(fact['n_affected_people'])
+
+            service.assertit()
+
+            fact.retract()
+
+            env.run()
+
+            return jsonify(id=service["id"], emergency_type=service["type"])
+
+    return jsonify(id=None, emergency_type=None)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -77,11 +77,12 @@ $(document).ready(function() {
                         break;
                       case "homicide":
                         addMarker(data.id, "Homicide", "orange", "emergency");
+                        break;
                       case "pandemic":
                         addMarker(data.id, "Pandemic", "orange", "emergency");
                         break;
                       case "car_crash":
-                        addMarker(data.id, "Traffic accident", "orange"), "emergency";
+                        addMarker(data.id, "Traffic accident", "orange", "emergency");
                         break;
                       default:
                         break;
@@ -119,7 +120,11 @@ $(document).ready(function() {
 
 
         google.maps.event.addListener(marker, 'dragend', function() {
-            moveMarker(marker, "moveService");
+            if(marker.type == 'service') {
+                moveMarker(marker, "moveService");
+            } else if(marker.type == 'emergency') {
+                moveMarker(marker, "moveEmergency");
+            }
         });
     }
 
