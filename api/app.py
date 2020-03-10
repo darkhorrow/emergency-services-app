@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, Response, jsonify
+from flask import Flask, render_template, request, jsonify
 from flask_restful import Api
 from flask_googlemaps import GoogleMaps, Map
 from clips import Symbol, Environment
