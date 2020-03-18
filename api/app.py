@@ -21,6 +21,10 @@ GoogleMaps(app, key="AIzaSyBWoKCv2cZw-GgDhMR2KaDXMLV0dbsvMIw")
 
 @app.route("/")
 def display_map():
+    global service_count
+    service_count = 0
+    global emergency_count
+    emergency_count = 0
     my_map = Map(identifier="view-side", lat=-15.42843, lng=28.12504)
     return render_template('index.html', mymap=my_map)
 
