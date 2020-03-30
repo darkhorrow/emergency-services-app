@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request
 from flask_restful import Api
 from flask_googlemaps import GoogleMaps, Map
 from clips import Symbol, Environment
-from api.response import Success, Error
+from api.model.response import Success, Error
 import json
 
 env = Environment()
@@ -23,7 +23,16 @@ GoogleMaps(app, key="AIzaSyBWoKCv2cZw-GgDhMR2KaDXMLV0dbsvMIw")
 
 @app.route("/")
 def display_map():
+    global service_count
+    global emergency_count
+    service_count = 0
+    emergency_count = 0
     my_map = Map(identifier="view-side", lat=-15.42843, lng=28.12504)
+    for fact in env.facts():
+        if fact.template.name == 'Service' or fact.template.name == 'Emergency':
+            fact.retract()
+            env.run()
+
     return render_template('index.html', mymap=my_map)
 
 
