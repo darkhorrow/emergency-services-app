@@ -40,16 +40,16 @@ $(document).ready(function() {
                url: url,
                dataType: 'json',
                data: form.serialize(),
-               success: function(data) {
-                    switch(data.service_name) {
+               success: function(response) {
+                    switch(response.data.name) {
                       case "Sanitary":
-                        addMarker(data.id, "Sanitary", "green", "service");
+                        addMarker(response.data.id, "Sanitary", "green", "service");
                         break;
                       case "Firemen":
-                        addMarker(data.id, "Firemen", "red", "service");
+                        addMarker(response.data.id, "Firemen", "red", "service");
                         break;
                       case "Policemen":
-                        addMarker(data.id, "Policemen", "blue", "service");
+                        addMarker(response.data.id, "Policemen", "blue", "service");
                       default:
                         break;
                     }
@@ -67,22 +67,22 @@ $(document).ready(function() {
                url: url,
                data: form.serialize(),
                dataType: 'json',
-               success: function(data) {
-                    switch(data.emergency_type) {
+               success: function(response) {
+                    switch(response.data.type) {
                       case "natural_disaster":
-                        addMarker(data.id, "Natural disaster", "orange", "emergency");
+                        addMarker(response.data.id, "Natural disaster", "orange", "emergency");
                         break;
                       case "thief":
-                        addMarker(data.id, "Theft", "orange", "emergency");
+                        addMarker(response.data.id, "Theft", "orange", "emergency");
                         break;
                       case "homicide":
-                        addMarker(data.id, "Homicide", "orange", "emergency");
+                        addMarker(response.data.id, "Homicide", "orange", "emergency");
                         break;
                       case "pandemic":
-                        addMarker(data.id, "Pandemic", "orange", "emergency");
+                        addMarker(response.data.id, "Pandemic", "orange", "emergency");
                         break;
                       case "car_crash":
-                        addMarker(data.id, "Traffic accident", "orange", "emergency");
+                        addMarker(response.data.id, "Traffic accident", "orange", "emergency");
                         break;
                       default:
                         break;
