@@ -4,8 +4,9 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
         <style>
-            .map { width: 100% !important; height: 100vh !important; }
-
+            .map { width: 100% !important; height: 90vh !important; }
+            #log-textarea { width: 100% !important; height: 9.7vh !important; max-height: 9.7vh !important;
+            overflow: auto; }
         </style>
     </head>
     <body class="bg-dark">
@@ -40,6 +41,11 @@
                             <a id="tfc-b" class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#emergency-modal"><i class="fas fa-car-crash"></i> Add traffic accident</a>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="log-textarea" class="bg-dark"></div>
                 </div>
             </div>
         </div>

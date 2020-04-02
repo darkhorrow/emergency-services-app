@@ -3,6 +3,7 @@ from flask_restful import Api
 from flask_googlemaps import GoogleMaps, Map
 from clips import Symbol, Environment
 from api.model.response import Success, Error
+from api.settings import GOOGLE_MAPS_TOKEN
 import json
 
 env = Environment()
@@ -18,7 +19,7 @@ emergency_count = 0
 
 app = Flask("CLIPS Map", template_folder="templates", static_folder="static")
 api = Api(app)
-GoogleMaps(app, key="AIzaSyBWoKCv2cZw-GgDhMR2KaDXMLV0dbsvMIw")
+GoogleMaps(app, key=str(GOOGLE_MAPS_TOKEN))
 
 
 @app.route("/")
@@ -52,11 +53,12 @@ def add_service():
         service_count += 1
         env.run()
         data = {"id": service['id'], "name": service['name']}
-        response = Success(data, "Service added successfully!")
+        logs = get_current_responses()
+        response = Success(callback=data, logs=logs, message="Emergency added successfully")
         json_data = json.dumps(response.__dict__, default=lambda o: o.__dict__, indent=4)
         return json_data
 
-    response = Error(None, "Service could not be added. Try again later.")
+    response = Error(None, None, "Service could not be added. Try again later.")
     json_data = json.dumps(response.__dict__, default=lambda o: o.__dict__, indent=4)
     return json_data
 
@@ -75,11 +77,12 @@ def add_emergency():
         emergency_count += 1
         env.run()
         data = {"id": emergency['id'], "type": emergency['type']}
-        response = Success(data, "Emergency added successfully!")
+        logs = get_current_responses()
+        response = Success(callback=data, logs=logs, message="Emergency added successfully")
         json_data = json.dumps(response.__dict__, default=lambda o: o.__dict__, indent=4)
         return json_data
 
-    response = Error(None, "Emergency could not be added. Try again later.")
+    response = Error(None, None, "Emergency could not be added. Try again later.")
     json_data = json.dumps(response.__dict__, default=lambda o: o.__dict__, indent=4)
     return json_data
 
@@ -106,11 +109,11 @@ def move_service():
 
             if service.asserted:
                 env.run()
-                response = Success(None, "Service re-allocated successfully!")
+                response = Success(None, None, "Service re-allocated successfully!")
                 json_data = json.dumps(response.__dict__, default=lambda o: o.__dict__, indent=4)
                 return json_data
 
-    response = Error(None, "Service could not be re-allocated. Try again later.")
+    response = Error(None, None, "Service could not be re-allocated. Try again later.")
     json_data = json.dumps(response.__dict__, default=lambda o: o.__dict__, indent=4)
     return json_data
 
@@ -139,9 +142,30 @@ def move_emergency():
                 json_data = json.dumps(response.__dict__, default=lambda o: o.__dict__, indent=4)
                 return json_data
 
-        response = Error(None, "Emergency could not be re-allocated. Try again later.")
+        response = Error(None, None, "Emergency could not be re-allocated. Try again later.")
         json_data = json.dumps(response.__dict__, default=lambda o: o.__dict__, indent=4)
         return json_data
+
+
+def get_current_responses():
+    responses = list()
+    for fact in env.facts():
+        if fact.template.name == 'Solution':
+            fact_data = dict()
+            fact_data['code'] = fact['code_error']
+            fact_data['id_emergency'] = fact['id_emergency']
+            fact_data['id_service'] = fact['id_service']
+            fact_data['service'] = fact['name_service']
+            fact_data['emergency'] = fact['name_emergency']
+            responses.append(fact_data)
+            fact.retract()
+            env.run()
+
+    return responses
+
+
+def is_error_response(response):
+    return response['code'] < 0
 
 
 if __name__ == '__main__':

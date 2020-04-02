@@ -41,19 +41,20 @@ $(document).ready(function() {
                dataType: 'json',
                data: form.serialize(),
                success: function(response) {
-                    switch(response.data.name) {
+                    switch(response.callback.name) {
                       case "Sanitary":
-                        addMarker(response.data.id, "Sanitary", "green", "service");
+                        addMarker(response.callback.id, "Sanitary", "green", "service");
                         break;
                       case "Firemen":
-                        addMarker(response.data.id, "Firemen", "red", "service");
+                        addMarker(response.callback.id, "Firemen", "red", "service");
                         break;
                       case "Policemen":
-                        addMarker(response.data.id, "Policemen", "blue", "service");
+                        addMarker(response.callback.id, "Policemen", "blue", "service");
                       default:
                         break;
                     }
-                    $("#service-modal").modal("hide")
+                    $("#service-modal").modal("hide");
+                    logger(response.logs);
                }
         }).responseJSON;
     });
@@ -68,26 +69,27 @@ $(document).ready(function() {
                data: form.serialize(),
                dataType: 'json',
                success: function(response) {
-                    switch(response.data.type) {
+                    switch(response.callback.type) {
                       case "natural_disaster":
-                        addMarker(response.data.id, "Natural disaster", "orange", "emergency");
+                        addMarker(response.callback.id, "Natural disaster", "orange", "emergency");
                         break;
                       case "thief":
-                        addMarker(response.data.id, "Theft", "orange", "emergency");
+                        addMarker(response.callback.id, "Theft", "orange", "emergency");
                         break;
                       case "homicide":
-                        addMarker(response.data.id, "Homicide", "orange", "emergency");
+                        addMarker(response.callback.id, "Homicide", "orange", "emergency");
                         break;
                       case "pandemic":
-                        addMarker(response.data.id, "Pandemic", "orange", "emergency");
+                        addMarker(response.callback.id, "Pandemic", "orange", "emergency");
                         break;
                       case "car_crash":
-                        addMarker(response.data.id, "Traffic accident", "orange", "emergency");
+                        addMarker(response.callback.id, "Traffic accident", "orange", "emergency");
                         break;
                       default:
                         break;
                     }
                     $("#emergency-modal").modal("hide")
+                    logger(response.logs);
                }
         }).responseJSON;
     });
@@ -141,6 +143,13 @@ $(document).ready(function() {
 
                }
         }).responseJSON;
+    }
+
+    function logger(logs) {
+        logs.forEach(function(log) {
+            var color = "text-" + (log.code == -1 ? "danger" : "success");
+            var p = $("#log-textarea").append("<p class='" + color + "'>" + log.service + "</p>");
+        });
     }
 
 });
