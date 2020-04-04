@@ -142,7 +142,7 @@ def move_emergency():
 
             if emergency.asserted:
                 env.run()
-                response = Success(None, "Emergency re-allocated successfully!")
+                response = Success(None, None, "Emergency re-allocated successfully!")
                 json_data = json.dumps(response.__dict__, default=lambda o: o.__dict__, indent=4)
                 return json_data
 
@@ -152,8 +152,9 @@ def move_emergency():
 
 
 def get_current_responses():
-    responses = list()
-    for fact in env.facts():
+    responses = []
+    facts = []
+    for i, fact in enumerate(env.facts()):
         if fact.template.name == 'Solution':
             fact_data = dict()
             fact_data['code'] = fact['code_error']
@@ -162,8 +163,10 @@ def get_current_responses():
             fact_data['service'] = fact['name_service']
             fact_data['emergency'] = fact['name_emergency']
             responses.append(fact_data)
-            fact.retract()
-            env.run()
+            facts.append(fact)
+    for fact in facts:
+        fact.retract()
+    env.run()
 
     return responses
 
