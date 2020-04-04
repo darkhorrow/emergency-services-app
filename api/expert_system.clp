@@ -1,4 +1,3 @@
-
 ; auxiliar functions
 (deffunction ceil(?value)
   (bind ?x (mod ?value 1))
@@ -18,22 +17,23 @@
 
 ; templates
 (deftemplate Service
-  (slot id (type INTEGER))
-  (slot name (allowed-values Sanitary Firemen Policemen))
-  (multislot location (type FLOAT)); km
-  (slot n_members (type INTEGER))
-  (slot movement_speed (type FLOAT)); km/h
-  (slot prep_time (type FLOAT)) ; h
+  (slot id (type INTEGER)) ; identificador del servicio
+  (slot name (allowed-values Sanitary Firemen Policemen)) ; tipo de servicio
+  (multislot location (type FLOAT)) ; localización de la estación de servicio
+  (slot n_members (type INTEGER)) ; número de trabajadores disponibles para atender una emergencia
+  (slot movement_speed (type FLOAT)) ; velocidad de movimiento para alcanzar una emergencia
+  (slot prep_time (type FLOAT)) ; tiempo necesario para prepararse para atender una emergencia
 )
 
 (deftemplate Emergency
-  (slot id (type INTEGER))
-  (slot type (allowed-values natural_disaster thief homicide pandemic car_crash))
-  (multislot location (type FLOAT)) ; km
-  (slot n_affected_people (type INTEGER))
+  (slot id (type INTEGER)) ; identificador de la emergencia
+  (slot type (allowed-values natural_disaster thief homicide pandemic car_crash)); tipo de emergencia
+  (multislot location (type FLOAT)) ; lugar donde se produjo la emergencia
+  (slot n_affected_people (type INTEGER)) ; número de personas afectadas en la emergencia
 )
 
 (deftemplate Solution
+  (slot id_solution (type INTEGER))
   (slot code_error (type INTEGER)); <0 error |  >= 0 success
   (slot id_emergency (type INTEGER))
   (slot name_emergency (allowed-values natural_disaster thief homicide pandemic car_crash))
@@ -87,7 +87,7 @@
     (assert (call Policemen ?id ?x ?y ?staff_policemen))
    else
     (printout t "ERROR: there are not enough policemen to attend to the emergency " ?id " : " (- ?num_policemen ?staff_policemen) crlf)
-    (assert (Solution (code_error -1) (id_emergency ?id) (name_emergency ?type) (id_service -1) (name_service Policemen)))
+    (assert (Solution (id_solution (integer (* 1000 (time)))) (code_error -1) (id_emergency ?id) (name_emergency ?type) (id_service -1) (name_service Policemen)))
   )
 
   ; delete choose-service
@@ -113,21 +113,21 @@
     (assert (call Policemen ?id ?x ?y ?staff_policemen))
    else
     (printout t "ERROR: there are not enough policemen to attend to the emergency " ?id " : " (- ?num_policemen ?staff_policemen) crlf)
-    (assert (Solution (code_error -1) (id_emergency ?id) (name_emergency ?type) (id_service -1) (name_service Policemen)))
+    (assert (Solution (id_solution (integer (* 1000 (time)))) (code_error -1) (id_emergency ?id) (name_emergency ?type) (id_service -1) (name_service Policemen)))
   )
   (if (>= ?num_sanitary ?staff_sanitary)
    then
     (assert (call Sanitary ?id ?x ?y ?staff_sanitary))
    else
     (printout t "ERROR: there are not enough sanitary to attend to the emergency " ?id " : " (- ?num_sanitary ?staff_sanitary) crlf)
-    (assert (Solution (code_error -1) (id_emergency ?id) (name_emergency ?type) (id_service -1) (name_service Sanitary)))
+    (assert (Solution (id_solution (integer (* 1000 (time)))) (code_error -1) (id_emergency ?id) (name_emergency ?type) (id_service -1) (name_service Sanitary)))
   )
   (if (>= ?num_firemen ?staff_firemen)
    then
     (assert (call Firemen ?id ?x ?y ?staff_firemen))
    else
     (printout t "ERROR: there are not enough firemen to attend to the emergency " ?id " : " (- ?num_firemen ?staff_firemen) crlf)
-    (assert (Solution (code_error -1) (id_emergency ?id) (name_emergency ?type) (id_service -1) (name_service Firemen)))
+    (assert (Solution (id_solution (integer (* 1000 (time)))) (code_error -1) (id_emergency ?id) (name_emergency ?type) (id_service -1) (name_service Firemen)))
   )
 
   ; delete choose-service
@@ -151,14 +151,14 @@
     (assert (call Policemen ?id ?x ?y ?staff_policemen))
    else
     (printout t "ERROR: there are not enough policemen to attend to the emergency " ?id " : " (- ?num_policemen ?staff_policemen) crlf)
-    (assert (Solution (code_error -1) (id_emergency ?id) (name_emergency ?type) (id_service -1) (name_service Policemen)))
+    (assert (Solution (id_solution (integer (time))) (code_error -1) (id_emergency ?id) (name_emergency ?type) (id_service -1) (name_service Policemen)))
   )
   (if (>= ?num_sanitary ?staff_sanitary)
    then
     (assert (call Sanitary ?id ?x ?y ?staff_sanitary))
    else
     (printout t "ERROR: there are not enough sanitary to attend to the emergency " ?id  " : " (- ?num_sanitary ?staff_sanitary) crlf)
-    (assert (Solution (code_error -1) (id_emergency ?id) (name_emergency ?type) (id_service -1) (name_service Sanitary)))
+    (assert (Solution (id_solution (integer (time))) (code_error -1) (id_emergency ?id) (name_emergency ?type) (id_service -1) (name_service Sanitary)))
   )
   ; delete choose-service
   (retract ?serv)
@@ -179,7 +179,7 @@
     (assert (call Sanitary ?id ?x ?y ?staff_sanitary))
    else
     (printout t "ERROR: there are not enough sanitary to attend to the emergency " ?id " : " (- ?num_sanitary ?staff_sanitary) crlf)
-    (assert (Solution (code_error -1) (id_emergency ?id) (name_emergency ?type) (id_service -1) (name_service Sanitary)))
+    (assert (Solution (id_solution (integer (* 1000 (time)))) (code_error -1) (id_emergency ?id) (name_emergency ?type) (id_service -1) (name_service Sanitary)))
   )
   ; delete choose-service
   (retract ?serv)
@@ -190,28 +190,31 @@
   (test (eq ?type car_crash))
   =>
   (printout t "Is a car crash emergency" crlf)
-  ; calculate required staff: 1 member/10 people
+
+  ; Calculate required staff: 1 member/10 people
   (bind ?staff_policemen (ceil (/ ?n_affected 10)))
   (bind ?staff_firemen (ceil (/ ?n_affected 10)))
 
   (bind ?num_policemen (count_members Policemen))
   (bind ?num_firemen (count_members Firemen))
 
+
   (if (>= ?num_policemen ?staff_policemen)
    then
     (assert (call Policemen ?id ?x ?y ?staff_policemen))
    else
     (printout t "ERROR: there are not enough policemen to attend to the emergency " ?id " : " (- ?num_policemen ?staff_policemen) crlf)
-    (assert (Solution (code_error -1) (id_emergency ?id) (name_emergency ?type) (id_service -1) (name_service Policemen)))
+    (assert (Solution (id_solution (integer (* 1000 (time)))) (code_error -1) (id_emergency ?id) (name_emergency ?type) (id_service -1) (name_service Policemen)))
   )
   (if (>= ?num_firemen ?staff_firemen)
    then
     (assert (call Firemen ?id ?x ?y ?staff_firemen))
    else
     (printout t "ERROR: there are not enough firemen to attend to the emergency " ?id " : " (- ?num_firemen ?staff_firemen)  crlf)
-    (assert (Solution (code_error -1) (id_emergency ?id) (name_emergency ?type) (id_service -1) (name_service Firemen)))
+    (assert (Solution (id_solution (integer (* 1000 (time)))) (code_error -1) (id_emergency ?id) (name_emergency ?type) (id_service -1) (name_service Firemen)))
   )
-  ; delete choose-service
+
+  ; retract choose-service
   (retract ?serv)
 )
 
@@ -227,9 +230,12 @@
       (bind ?id ?service:id)
       (bind ?locx (nth$ 1 (fact-slot-value ?service location)))
       (bind ?locy (nth$ 2 (fact-slot-value ?service location)))
+
+      ; distancia euler entre estacion y emergencia = dist  | time = dist/speed + preparation_time
       (bind ?dist (sqrt (+ (* (- ?x ?locx) (- ?x ?locx)) (* (- ?y ?locy) (- ?y ?locy)))) )
       (bind ?mov_time (/ ?dist ?service:movement_speed))
       (bind ?time (+ ?mov_time ?service:prep_time))
+
       (assert (distance-station ?name ?emergency_id ?service:id ?time ?staff))
     )
   )
@@ -292,7 +298,7 @@
       )
     )
     ; ... encontrar nombre de emergencia para el id.
-    (bind ?emergency_type natural_desaster)
+    (bind ?emergency_type natural_disaster)
     (do-for-all-facts ((?emergency Emergency)) TRUE
       (if (eq ?emergency_id ?emergency:id)
        then
@@ -300,7 +306,7 @@
         (break)
       )
     )
-    (assert (Solution (code_error 0) (id_emergency ?emergency_id) (name_emergency ?service_name) (id_service ?service_id) (name_service ?emergency_type)))
+    (assert (Solution (id_solution (integer (* 1000 (time)))) (code_error 0) (id_emergency ?emergency_id) (name_emergency ?service_name) (id_service ?service_id) (name_service ?emergency_type)))
   )
 )
 

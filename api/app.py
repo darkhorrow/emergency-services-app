@@ -29,10 +29,14 @@ def display_map():
     service_count = 0
     emergency_count = 0
     my_map = Map(identifier="view-side", lat=-15.42843, lng=28.12504)
-    for fact in env.facts():
+
+    facts = []
+    for i, fact in enumerate(env.facts()):
         if fact.template.name == 'Service' or fact.template.name == 'Emergency':
-            fact.retract()
-            env.run()
+            facts.append(fact)
+    for fact in facts:
+        fact.retract()
+    env.run()
 
     return render_template('index.html', mymap=my_map)
 
