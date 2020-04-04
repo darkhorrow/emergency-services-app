@@ -147,8 +147,18 @@ $(document).ready(function() {
 
     function logger(logs) {
         logs.forEach(function(log) {
-            var color = "text-" + (log.code == -1 ? "danger" : "success");
-            var p = $("#log-textarea").append("<p class='" + color + "'>" + log.service + "</p>");
+            var isError = log.code == -1 ? true : false;
+            var color = "text-" + (isError ? "danger" : "success");
+            var text = "";
+            if(isError) {
+                text = "There are not enough " + log.service.toLowerCase() +  "[ID " + log.id_service + "] employees to satisfy the " +
+                log.emergency.toLowerCase() + "[ID " + log.id_emergency + "] emergency"
+            } else {
+                text = "The " + log.emergency.toLowerCase() +  "[ID " + log.id_service + "] emergency has been designated to the " +
+                log.service.toLowerCase() + "[ID " + log.id_emergency + "]";
+            }
+
+            var p = $("#log-textarea").append("<p class='" + color + "'>" + text + "</p>");
         });
     }
 
