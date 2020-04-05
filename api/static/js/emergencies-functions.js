@@ -1,4 +1,7 @@
 $(document).ready(function() {
+
+    emergencies = []
+
     $("#snt-b").click(function() {
         $("#service-name").attr("value","Sanitary");
     });
@@ -132,6 +135,10 @@ $(document).ready(function() {
                 moveMarker(marker, "moveEmergency");
             }
         });
+
+        if(type == 'emergency') {
+            emergencies.push(marker);
+        }
     }
 
     function moveMarker(marker, url) {
@@ -150,21 +157,42 @@ $(document).ready(function() {
         }).responseJSON;
     }
 
+    function removeEmergencyMarker(id) {
+        emergencies.forEach(function(marker) {
+            if(marker.id == id) {
+                console.log("Confirming " + id  + " delete");
+                marker.setMap(null);
+                var index = emergencies.indexOf(marker);
+                if(index > -1) {
+                    emergencies.splice(index, 1);
+                    console.log("Out of array");
+                }
+            }
+        });
+    }
+
     function logger(logs) {
+        var existsError = false;
+        var id = -1;
         logs.forEach(function(log) {
+            id = log.id_emergency;
             var isError = log.code == -1 ? true : false;
             var color = "text-" + (isError ? "danger" : "success");
             var text = "";
             if(isError) {
                 text = "There are not enough " + log.service.toLowerCase() +  "[ID " + log.id_service + "] employees to satisfy the " +
                 log.emergency.toLowerCase() + "[ID " + log.id_emergency + "] emergency"
+                existsError = true;
             } else {
                 text = "The " + log.emergency.toLowerCase() +  "[ID " + log.id_service + "] emergency has been designated to the " +
                 log.service.toLowerCase() + "[ID " + log.id_emergency + "]";
             }
-
             var p = $("#log-textarea").append("<p class='" + color + "'>" + text + "</p>");
         });
+        if(!existsError) {
+            console.log("Deleting " + id);
+            removeEmergencyMarker(id);
+        }
     }
 
 });

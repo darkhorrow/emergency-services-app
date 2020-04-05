@@ -21,6 +21,8 @@ app = Flask("CLIPS Map", template_folder="templates", static_folder="static")
 api = Api(app)
 GoogleMaps(app, key=str(GOOGLE_MAPS_TOKEN))
 
+my_map = Map(identifier="view-side", lat=-15.42843, lng=28.12504)
+
 
 @app.route("/")
 def display_map():
@@ -28,7 +30,6 @@ def display_map():
     global emergency_count
     service_count = 0
     emergency_count = 0
-    my_map = Map(identifier="view-side", lat=-15.42843, lng=28.12504)
 
     facts = []
     for i, fact in enumerate(env.facts()):
