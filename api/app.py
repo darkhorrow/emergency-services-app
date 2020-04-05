@@ -157,6 +157,7 @@ def get_current_responses():
     emergencies = []
     facts = []
     for i, fact in enumerate(env.facts()):
+        print(fact)
         if fact.template.name == 'Solution':
             fact_data = dict()
             fact_data['code'] = fact['code_error']

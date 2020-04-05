@@ -175,6 +175,7 @@ $(document).ready(function() {
         var existsError = false;
         var id = -1;
         logs.forEach(function(log) {
+            console.log(log);
             id = log.id_emergency;
             var isError = log.code == -1 ? true : false;
             var color = "text-" + (isError ? "danger" : "success");
