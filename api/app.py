@@ -153,6 +153,7 @@ def move_emergency():
 
 def get_current_responses():
     responses = []
+    emergencies = []
     facts = []
     for i, fact in enumerate(env.facts()):
         if fact.template.name == 'Solution':
@@ -164,8 +165,15 @@ def get_current_responses():
             fact_data['emergency'] = fact['name_emergency']
             responses.append(fact_data)
             facts.append(fact)
+            if fact['code_error'] >= 0:
+                for j, e_fact in enumerate(env.facts()):
+                    if e_fact.template.name == 'Emergency' and e_fact['id'] == fact['id_emergency']:
+                        emergencies.append(e_fact)
+
     for fact in facts:
         fact.retract()
+    for emergency in emergencies:
+        emergency.retract()
     env.run()
 
     return responses

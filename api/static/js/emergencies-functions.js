@@ -54,6 +54,8 @@ $(document).ready(function() {
                         break;
                     }
                     $("#service-modal").modal("hide");
+                    $("#log-textarea").append("<p class='text-success'>" + response.callback.name +
+                    " service added succesfully</p>");
                     logger(response.logs);
                }
         }).responseJSON;
@@ -89,6 +91,8 @@ $(document).ready(function() {
                         break;
                     }
                     $("#emergency-modal").modal("hide")
+                    $("#log-textarea").append("<p class='text-success'>" + response.callback.type +
+                    " emergency added succesfully</p>");
                     logger(response.logs);
                }
         }).responseJSON;
@@ -140,7 +144,8 @@ $(document).ready(function() {
                dataType: 'json',
                data: 'id=' + encodeURIComponent(id) + '&locx=' + encodeURIComponent(locX) + '&locy=' + encodeURIComponent(locY),
                success: function(data) {
-
+                    var type = url == "moveService" ? 'Service' : 'Emergency'
+                    $("#log-textarea").append("<p class='text-success'>" + type + "[ID " + id + "] re-allocated succesfully</p>");
                }
         }).responseJSON;
     }
