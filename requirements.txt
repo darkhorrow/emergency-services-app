@@ -6,7 +6,7 @@ Flask==1.1.1
 flask-googlemaps==0.4.0
 Flask-RESTful==0.3.8
 itsdangerous==1.1.0
-Jinja2==2.11.1
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 pycparser==2.19
 python-dotenv==0.12.0
