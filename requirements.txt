@@ -2,7 +2,7 @@ aniso8601==8.0.0
 cffi==1.14.0
 Click==7.0
 clipspy==0.3.3
-Flask==1.1.1
+Flask==2.3.2
 flask-googlemaps==0.4.0
 Flask-RESTful==0.3.8
 itsdangerous==1.1.0
